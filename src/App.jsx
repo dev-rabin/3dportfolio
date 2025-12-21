@@ -8,12 +8,14 @@ import Projects from "./pages/Projects";
 import Contact from "./pages/Contact";
 import SmoothScroll from "./components/SmoothScroll";
 import Home from "./pages/Home";
+import GlobalScene from "./components/GlobalScene.jsx";
+import Footer from "./components/Footer.jsx";
 
 function AnimatedRoutes() {
   const location = useLocation();
 
   return (
-    <AnimatePresence mode="wait">
+    <AnimatePresence mode="popLayout">
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
@@ -28,11 +30,18 @@ export default function App() {
   return (
     <BrowserRouter>
       <NavigationProvider>
-        <SmoothScroll>
-          <Navbar />
-          <AnimatedRoutes />
-        </SmoothScroll>
+        {/* PAGE WRAPPER (IMPORTANT) */}
+        <div className="relative min-h-screen bg-[#0b0b0c]">
+          <GlobalScene />
+
+          <SmoothScroll>
+            <Navbar />
+            <AnimatedRoutes />
+            <Footer/>
+          </SmoothScroll>
+        </div>
       </NavigationProvider>
     </BrowserRouter>
   );
 }
+

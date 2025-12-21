@@ -1,8 +1,5 @@
-import { Canvas } from "@react-three/fiber";
-import Smoke from "../three/Smoke.jsx";
 import { SKILLS } from "../constants/skills.js";
 import { motion } from "framer-motion";
-import { EXPERIENCE } from "../constants/experience.js";
 
 const container = {
   hidden: {},
@@ -57,18 +54,7 @@ const item = {
 
 export default function About() {
   return (
-    <section className="relative min-h-screen bg-[#0b0b0c] text-white">
-      {/* BACKGROUND CANVAS */}
-      <div className="absolute inset-0">
-        <Canvas camera={{ position: [0, 1.5, 5], fov: 40 }}>
-          <ambientLight intensity={0.25} />
-          <Smoke />
-        </Canvas>
-      </div>
-
-      {/* DARK GRADIENT OVERLAY */}
-      <div className="absolute inset-0 bg-gradient-to-t from-[#0b0b0c]/85 via-[#0b0b0c]/65 to-[#0b0b0c]/40" />
-
+    <section className=" min-h-screen text-white">
       {/* CONTENT */}
       <div className="relative w-[80%] mx-auto py-24">
         {/* ABOUT HEADER */}
@@ -134,95 +120,7 @@ export default function About() {
           </motion.p>
         </motion.div>
 
-        {/* ================= EXPERIENCE (NEW DESIGN) ================= */}
-        <motion.section
-          className="mb-32"
-          variants={container}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true }}
-        >
-          {/* SECTION LABEL */}
-          <motion.p
-            variants={item}
-            className="uppercase tracking-[0.4em] text-xs text-gray-500"
-          >
-            Experience
-          </motion.p>
-
-          {/* SECTION TITLE */}
-          <h2 className="text-[48px] font-serif italic tracking-tight mb-10">
-            Professional{" "}
-            <span className="not-italic font-sans font-semibold bg-gradient-to-r from-indigo-400 via-sky-400 to-cyan-400 bg-clip-text text-transparent">
-              Experience
-            </span>
-          </h2>
-
-          {/* EXPERIENCE CARDS */}
-          <div className="space-y-10">
-            {EXPERIENCE.map((exp) => (
-              <motion.div
-                key={exp.id}
-                variants={fadeUp}
-                whileHover={{ y: -6 }}
-                transition={{ type: "spring", stiffness: 200, damping: 20 }}
-                className="
-                            relative rounded-3xl
-                            p-8 md:p-10
-                            border border-white/10
-                            bg-white/[0.03]
-                            backdrop-blur-xl
-                          "
-              >
-                {/* subtle gradient border */}
-                <div className="pointer-events-none absolute inset-0 rounded-3xl bg-gradient-to-br from-cyan-500/10 via-transparent to-indigo-500/10 opacity-50" />
-
-                <div className="relative grid grid-cols-1 md:grid-cols-3 gap-8">
-                  {/* LEFT */}
-                  <div>
-                    <p className="text-xs tracking-[0.3em] uppercase text-gray-400 mb-3">
-                      {exp.period}
-                    </p>
-
-                    <h3 className="text-2xl font-semibold text-white mb-1">
-                      {exp.role}
-                    </h3>
-
-                    <p className="text-sm text-gray-400">
-                      {exp.company} · {exp.type}
-                    </p>
-                  </div>
-
-                  {/* RIGHT */}
-                  <div className="md:col-span-2">
-                    <p className="text-gray-300 leading-[1.8] mb-6">
-                      {exp.description}
-                    </p>
-
-                    {/* TECH STACK */}
-                    <div className="flex flex-wrap gap-3">
-                      {exp.tech.map((tech) => (
-                        <span
-                          key={tech}
-                          className="
-                    px-3 py-1 text-xs
-                    rounded-full
-                    bg-white/[0.05]
-                    border border-white/10
-                    text-gray-300
-                  "
-                        >
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </motion.section>
-
+        
         {/* ================= SKILLS (UNCHANGED) ================= */}
         <motion.div
           className="mb-10"
@@ -266,7 +164,10 @@ export default function About() {
               variants={fadeUp}
             >
               <div className="flex items-center gap-6">
-                <span className="text-sm uppercase tracking-[0.4em] font-semibold bg-gradient-to-r from-indigo-400 via-sky-400 to-cyan-400 bg-clip-text text-transparent">
+                <span
+                  className="text-sm uppercase tracking-[0.4em] font-semibold bg-gradient-to-r from-indigo-400 via-sky-400 to-cyan-400 bg-clip-text text-transparent"
+                
+                >
                   {category}
                 </span>
                 <span className="flex-1 h-px bg-gradient-to-r from-cyan-400/40 via-indigo-400/30 to-transparent" />
@@ -289,8 +190,8 @@ export default function About() {
                       className="
                         group relative flex items-center gap-4
                         px-5 py-3 rounded-full
-                        bg-white/[0.04]
-                        backdrop-blur-md
+                        bg-white/5
+                        backdrop-blur-lg
                         border border-white/10
                         transition-all duration-300
                         hover:border-white/20

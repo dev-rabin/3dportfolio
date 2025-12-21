@@ -59,15 +59,8 @@ export default function Projects() {
       : PROJECTS.filter((p) => p.type === activeFilter);
 
   return (
-    <section className="relative min-h-screen bg-[#0b0b0c] text-white">
-      <div className="absolute inset-0">
-        <Canvas camera={{ position: [0, 1.5, 5], fov: 40 }}>
-          <ambientLight intensity={0.2} />
-          <Smoke />
-        </Canvas>
-      </div>
-
-      <div className="absolute inset-0 bg-gradient-to-t from-[#0b0b0c]/85 to-[#0b0b0c]/45" />
+    <section className="min-h-screen text-white">
+      <div className="absolute inset-0" />
 
       <div className="relative w-[80%] mx-auto py-24">
         <div className="my-8 flex justify-between items-end">

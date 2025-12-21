@@ -1,9 +1,4 @@
 import { motion } from "framer-motion";
-import { Canvas } from "@react-three/fiber";
-import { Environment } from "@react-three/drei";
-import Smoke from "../three/Smoke.jsx";
-import { useNavDirection } from "../context/NavigationContext.jsx";
-
 import { FiArrowUpRight, FiMapPin } from "react-icons/fi";
 import { FaGithub, FaLinkedinIn, FaTwitter } from "react-icons/fa";
 import ContactForm from "../components/ContactForm.jsx";
@@ -29,59 +24,68 @@ export default function Contact() {
 
   return (
     <motion.section
-      className="relative min-h-screen bg-[#0b0b0c] text-white overflow-y-auto"
+      className="min-h-screen text-white overflow-y-auto"
       animate={{ y: 0 }}
       transition={{ duration: 1, ease: [0.76, 0, 0.24, 1] }}
     >
-      {/* ================= BACKGROUND ================= */}
-      <div className="absolute inset-0 pointer-events-none z-0">
-        <Canvas camera={{ position: [0, 1.2, 5], fov: 38 }}>
-          <ambientLight intensity={0.25} />
-          <Environment preset="studio" />
-          <Smoke />
-        </Canvas>
-      </div>
-
-      {/* overlay */}
-      <div className="absolute inset-0 pointer-events-none z-0 bg-gradient-to-t from-black/90 via-black/70 to-black/40 backdrop-blur-[2px]" />
-
-      {/* ================= CONTENT ================= */}
       <motion.div
         initial="hidden"
         animate="show"
         className="
           relative z-10
           w-full
-          px-[10vw]
+          px-[10.5vw]
           py-[14vh]
-          flex flex-col
+          flex
           gap-24
         "
       >
         {/* ================= TOP CONTENT ================= */}
-        <div className="max-w-4xl">
+        <div className="w-1/2">
           <motion.p
             variants={item}
-            className="uppercase tracking-[0.4em] text-xs text-gray-500 mt-8"
+            className="uppercase tracking-[0.4em] text-xs text-gray-500"
           >
             Contact
           </motion.p>
 
           <h1 className="font-serif italic text-[56px] tracking-tight">
-            Get in {" "}
+            Get in{" "}
             <span className="not-italic font-sans font-semibold bg-gradient-to-r from-indigo-400 via-sky-400 to-cyan-400 bg-clip-text text-transparent">
               Touch
             </span>
           </h1>
 
-          <motion.div variants={item} className="space-y-6 mt-14">
-            <a
-              href="mailto:robinmandhotia@gmail.com"
-              className="group inline-flex items-center gap-4 text-lg border-b border-white/20 pb-2 hover:border-cyan-400 transition-all"
+          <motion.div variants={item} className="space-y-6 my-6">
+            <motion.ul
+              variants={item}
+              className="space-y-3 text-md text-gray-400"
             >
-              robinmandhotia@gmail.com
-              <FiArrowUpRight className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-            </a>
+              <li>
+                • Full-stack web applications using MERN with secure
+                authentication, scalable architecture, and clean APIs
+              </li>
+
+              <li>
+                • Modern React and TypeScript frontends focused on reusable
+                components, maintainable code, and smooth user experiences
+              </li>
+
+              <li>
+                • REST API design, backend integration, and database management
+                with performance and security in mind
+              </li>
+
+              <li>
+                • Performance-focused UI development with optimized rendering,
+                accessibility best practices, and responsive layouts
+              </li>
+
+              <li>
+                • End-to-end feature implementation — from idea and wireframes
+                to production-ready deployment
+              </li>
+            </motion.ul>
 
             <div className="flex items-center gap-2 text-gray-400">
               <FiMapPin />
@@ -104,7 +108,9 @@ export default function Contact() {
         </div>
 
         {/* ================= FORM (BOTTOM) ================= */}
-        <ContactForm />
+        <div className="w-1/2">
+          <ContactForm />
+        </div>
       </motion.div>
     </motion.section>
   );

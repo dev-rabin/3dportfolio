@@ -36,16 +36,16 @@ export default function HeroSphere({ activeIndex, dragDelta, isDragging }) {
       <mesh ref={sphereRef} position={[0, -0.25, 0]}>
         <sphereGeometry args={[1, 160, 160]} />
         <MeshTransmissionMaterial
-          transmission={1}
-          thickness={0.6}
-          roughness={0}
+          transmission={1} 
+          thickness={1.2}
+          roughness={0.08}
           ior={1.45}
-          chromaticAberration={0.08}
-          anisotropy={0.2}
-          distortion={0.25}
-          distortionScale={0.4}
-          temporalDistortion={0.1}
-          attenuationDistance={1}
+          chromaticAberration={0.04}
+          anisotropy={0.1}
+          distortion={0.15}
+          distortionScale={0.25}
+          temporalDistortion={0.05}
+          attenuationDistance={0.8}
           attenuationColor="#ffffff"
           color="#ffffff"
           toneMapped={false}

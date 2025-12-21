@@ -145,24 +145,18 @@ export default function Hero() {
 
         {/* CANVAS – FULL SCREEN */}
         <div className="absolute inset-0">
-          
-          <Canvas
-            camera={{ position: [0, 1.5, 5], fov: 40 }}
-            gl={{ physicallyCorrectLights: true }}
-          >
-            <ambientLight intensity={0.4} />
-
-            <TechOrbit dragDelta={dragDelta} isDragging={isDragging} />
-
-            <HeroSphere
-              activeIndex={activeIndex}
-              dragDelta={dragDelta}
-              isDragging={isDragging}
-            />
-
-            {/* MUST BE LAST */}
-            <Environment preset="city" />
-          </Canvas>
+          <div className="absolute inset-0 ">
+            <Canvas camera={{ position: [0, 1.5, 5], fov: 40 }}>
+              <ambientLight intensity={0.2} />
+              <TechOrbit dragDelta={dragDelta} isDragging={isDragging} />
+              <Environment preset="city" />
+              <HeroSphere
+                activeIndex={activeIndex}
+                dragDelta={dragDelta}
+                isDragging={isDragging}
+              />
+            </Canvas>
+          </div>
         </div>
       </section>
     </>

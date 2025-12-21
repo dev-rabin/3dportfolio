@@ -1,124 +1,124 @@
 import { motion } from "framer-motion";
 import { FiArrowUpRight } from "react-icons/fi";
 
-
+/* ---------------- ANIMATION ---------------- */
 const item = {
-  hidden: {
-    y: 40,
-    opacity: 0,
-    filter: "blur(8px)",
-  },
+  hidden: { y: 24, opacity: 0, filter: "blur(4px)" },
   show: {
     y: 0,
     opacity: 1,
     filter: "blur(0px)",
-    transition: {
-      duration: 1,
-      ease: [0.76, 0, 0.24, 1],
-    },
+    transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] },
   },
 };
 
-/* ---------------- FIELD COMPONENT ---------------- */
-function FormField({ label, type = "text", textarea = false }) {
-  const Field = textarea ? "textarea" : "input";
-
-  return (
-    <motion.div variants={item} className="relative mb-8 group">
-      <Field
-        type={!textarea ? type : undefined}
-        rows={textarea ? 3 : undefined}
-        required
-        className="
-          peer w-full
-          bg-transparent
-          py-4
-          text-lg text-white
-          border-b border-white/20
-          outline-none
-          resize-none
-        "
-      />
-
-      <label
-        className="
-          absolute left-0 top-4
-          text-gray-400 text-sm
-          transition-all duration-300
-          peer-focus:-top-4 peer-focus:text-xs peer-focus:text-cyan-400
-          peer-valid:-top-4 peer-valid:text-xs
-        "
-      >
-        {label}
-      </label>
-
-      <span
-        className="
-          absolute left-0 bottom-0
-          h-[2px] w-0
-          bg-gradient-to-r from-cyan-400 to-indigo-400
-          transition-all duration-500
-          group-focus-within:w-full
-        "
-      />
-    </motion.div>
-  );
-}
-
-/* ---------------- MAIN FORM ---------------- */
 export default function ContactForm({ onSubmit }) {
   return (
-    <motion.form
-      variants={item}
-      initial="hidden"
-      animate="show"
-      onSubmit={onSubmit || ((e) => e.preventDefault())}
-      className="
-        relative w-full max-w-2xl
-        rounded-3xl
-        p-10
-        border border-white/10
-        bg-white/[0.03]
-        backdrop-blur-xl
-      "
-    >
-      {/* glow */}
-      <div className="pointer-events-none absolute inset-0 rounded-3xl bg-gradient-to-br from-cyan-500/10 via-transparent to-indigo-500/10 opacity-40" />
-
-      <motion.p
+    <section className="flex items-center justify-center">
+      <motion.form
+        initial="hidden"
+        animate="show"
         variants={item}
-        className="relative uppercase text-xs text-gray-500 mb-8"
-      >
-        Send a message
-      </motion.p>
-
-      {/* FIELDS */}
-      <FormField label="Your Name" />
-      <FormField label="Email Address" type="email" />
-      <FormField label="Message" textarea />
-
-      {/* SUBMIT */}
-      <motion.button
-        variants={item}
-        whileHover={{ y: -3 }}
-        whileTap={{ scale: 0.96 }}
+        onSubmit={onSubmit || ((e) => e.preventDefault())}
         className="
-          relative mt-2
-          inline-flex items-center gap-4
-          py-3 px-8
-          rounded-full
-          border border-white/20
-          overflow-hidden
-          group
+          w-full
+          px-10 py-12
+          space-y-10 bg-white/3 backdrop-blur-md
+          border border-white/10
+          shadow-[0_8px_24px_-12px_rgba(0,0,0,0.4)]
+          rounded-xl
         "
       >
-        <span className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-indigo-500 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+        {/* HEADER */}
+        <motion.div variants={item} className="space-y-2">
+          <p className="uppercase tracking-[0.35em] text-xs text-gray-400">
+            Send a message
+          </p>
+          <p className="text-gray-500 text-sm">
+            I usually respond within 24 hours
+          </p>
+        </motion.div>
 
-        <span className="relative z-10 flex items-center gap-3 text-lg font-medium">
-          Send message
-          <FiArrowUpRight />
-        </span>
-      </motion.button>
-    </motion.form>
+        {/* FIELD */}
+        {[
+          { label: "Full Name", type: "text" },
+          { label: "Email Address", type: "email" },
+        ].map((field) => (
+          <motion.div
+            key={field.label}
+            variants={item}
+            className="relative group"
+          >
+            <input
+              type={field.type}
+              required
+              className="
+                peer w-full bg-transparent
+                py-3 text-base text-white
+                border-b border-white/25
+                outline-none
+                transition
+                focus:border-white
+              "
+            />
+            <label
+              className="
+                absolute left-0 top-3 text-sm text-gray-400
+                transition-all duration-300
+                peer-focus:-top-4 peer-focus:text-xs
+                peer-valid:-top-4 peer-valid:text-xs
+              "
+            >
+              {field.label}
+            </label>
+            <span className="absolute left-0 bottom-0 h-px w-0 bg-white transition-all duration-500 group-focus-within:w-full" />
+          </motion.div>
+        ))}
+
+        {/* MESSAGE */}
+        <motion.div variants={item} className="relative group">
+          <textarea
+            rows={2}
+            required
+            className="
+              peer w-full bg-transparent
+              py-3 text-base text-white
+              border-b border-white/25
+              outline-none resize-none
+              transition
+              focus:border-white
+            "
+          />
+          <label
+            className="
+              absolute left-0 top-3 text-sm text-gray-400
+              transition-all duration-300
+              peer-focus:-top-4 peer-focus:text-xs
+              peer-valid:-top-4 peer-valid:text-xs
+            "
+          >
+            Message
+          </label>
+          <span className="absolute left-0 bottom-0 h-px w-0 bg-white transition-all duration-500 group-focus-within:w-full" />
+        </motion.div>
+
+        {/* SUBMIT */}
+        <motion.button
+          variants={item}
+          whileHover={{ y: -1 }}
+          whileTap={{ scale: 0.96 }}
+          className="
+            mt-4 inline-flex items-center gap-3
+            text-sm font-medium
+            border-b border-white/40
+            pb-1
+            hover:border-white
+            transition
+          "
+        >
+          Send Message <FiArrowUpRight />
+        </motion.button>
+      </motion.form>
+    </section>
   );
 }
