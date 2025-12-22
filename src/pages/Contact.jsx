@@ -1,18 +1,15 @@
+import { memo, lazy, Suspense } from "react";
 import { motion } from "framer-motion";
-import { FiArrowUpRight, FiMapPin } from "react-icons/fi";
+import { FiMapPin } from "react-icons/fi";
 import { FaGithub, FaLinkedinIn, FaTwitter } from "react-icons/fa";
-import ContactForm from "../components/ContactForm.jsx";
+
+/* ---------------- VARIANTS ---------------- */
 
 const item = {
-  hidden: {
-    y: 40,
-    opacity: 0,
-    filter: "blur(8px)",
-  },
+  hidden: { y: 40, opacity: 0 },
   show: {
     y: 0,
     opacity: 1,
-    filter: "blur(0px)",
     transition: {
       duration: 1,
       ease: [0.76, 0, 0.24, 1],
@@ -20,11 +17,23 @@ const item = {
   },
 };
 
-export default function Contact() {
+/* ---------------- LAZY FORM ---------------- */
 
+const ContactForm = lazy(() => import("../components/ContactForm.jsx"));
+
+const SOCIALS = [
+  { icon: FaGithub, href: "#" },
+  { icon: FaLinkedinIn, href: "#" },
+  { icon: FaTwitter, href: "#" },
+];
+
+/* ---------------- COMPONENT ---------------- */
+
+function Contact() {
   return (
     <motion.section
       className="min-h-screen text-white overflow-y-auto"
+      initial={{ y: 40 }}
       animate={{ y: 0 }}
       transition={{ duration: 1, ease: [0.76, 0, 0.24, 1] }}
     >
@@ -36,11 +45,10 @@ export default function Contact() {
           w-full
           px-[10.5vw]
           py-[14vh]
-          flex
-          gap-24
+          flex gap-24
         "
       >
-        {/* ================= TOP CONTENT ================= */}
+        {/* ================= LEFT ================= */}
         <div className="w-1/2">
           <motion.p
             variants={item}
@@ -57,33 +65,28 @@ export default function Contact() {
           </h1>
 
           <motion.div variants={item} className="space-y-6 my-6">
-            <motion.ul
-              variants={item}
-              className="space-y-3 text-md text-gray-400"
-            >
+            <motion.ul className="space-y-3 text-md text-gray-400">
               <li>
                 • Full-stack web applications using MERN with secure
-                authentication, scalable architecture, and clean APIs
+                authentication, scalable architecture, and clean APIs.
               </li>
-
               <li>
                 • Modern React and TypeScript frontends focused on reusable
-                components, maintainable code, and smooth user experiences
+                components, maintainable code, and smooth user experiences.
               </li>
-
               <li>
                 • REST API design, backend integration, and database management
-                with performance and security in mind
+                with performance and security in mind.
               </li>
-
               <li>
+              
                 • Performance-focused UI development with optimized rendering,
-                accessibility best practices, and responsive layouts
+                accessibility best practices, and responsive layouts.
               </li>
-
               <li>
+            
                 • End-to-end feature implementation — from idea and wireframes
-                to production-ready deployment
+                to production-ready deployment.
               </li>
             </motion.ul>
 
@@ -93,10 +96,10 @@ export default function Contact() {
             </div>
 
             <div className="flex gap-6">
-              {[FaGithub, FaLinkedinIn, FaTwitter].map((Icon, i) => (
+              {SOCIALS.map(({ icon: Icon, href }) => (
                 <motion.a
-                  key={i}
-                  href="#"
+                  key={href}
+                  href={href}
                   whileHover={{ y: -3 }}
                   className="text-gray-400 hover:text-white transition-colors"
                 >
@@ -107,11 +110,21 @@ export default function Contact() {
           </motion.div>
         </div>
 
-        {/* ================= FORM (BOTTOM) ================= */}
+        {/* ================= RIGHT ================= */}
         <div className="w-1/2">
-          <ContactForm />
+          <Suspense
+            fallback={
+              <div className="h-64 flex items-center justify-center text-gray-500">
+                Loading form…
+              </div>
+            }
+          >
+            <ContactForm />
+          </Suspense>
         </div>
       </motion.div>
     </motion.section>
   );
 }
+
+export default memo(Contact);

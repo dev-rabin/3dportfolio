@@ -1,13 +1,14 @@
+import { memo } from "react";
 import Hero from "../components/Hero";
 import Experience from "../components/Experince";
 
-const Home = () => {
+function Home() {
   return (
     <>
       <Hero />
       <Experience />
     </>
   );
-};
+}
 
-export default Home;
+export default memo(Home);

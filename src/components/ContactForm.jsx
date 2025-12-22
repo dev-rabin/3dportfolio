@@ -1,7 +1,9 @@
+import { memo, useCallback } from "react";
 import { motion } from "framer-motion";
 import { FiArrowUpRight } from "react-icons/fi";
 
 /* ---------------- ANIMATION ---------------- */
+
 const item = {
   hidden: { y: 24, opacity: 0, filter: "blur(4px)" },
   show: {
@@ -12,14 +14,30 @@ const item = {
   },
 };
 
-export default function ContactForm({ onSubmit }) {
+/* ---------------- STATIC FIELDS ---------------- */
+
+const FIELDS = [
+  { label: "Full Name", type: "text" },
+  { label: "Email Address", type: "email" },
+];
+
+function ContactForm({ onSubmit }) {
+  // stable fallback submit
+  const handleSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+      onSubmit?.(e);
+    },
+    [onSubmit]
+  );
+
   return (
     <section className="flex items-center justify-center">
       <motion.form
         initial="hidden"
         animate="show"
         variants={item}
-        onSubmit={onSubmit || ((e) => e.preventDefault())}
+        onSubmit={handleSubmit}
         className="
           w-full
           px-10 py-12
@@ -39,11 +57,8 @@ export default function ContactForm({ onSubmit }) {
           </p>
         </motion.div>
 
-        {/* FIELD */}
-        {[
-          { label: "Full Name", type: "text" },
-          { label: "Email Address", type: "email" },
-        ].map((field) => (
+        {/* INPUT FIELDS */}
+        {FIELDS.map((field) => (
           <motion.div
             key={field.label}
             variants={item}
@@ -86,7 +101,7 @@ export default function ContactForm({ onSubmit }) {
               border-b border-white/25
               outline-none resize-none
               transition
-              focus:border-white
+            
             "
           />
           <label
@@ -122,3 +137,5 @@ export default function ContactForm({ onSubmit }) {
     </section>
   );
 }
+
+export default memo(ContactForm);

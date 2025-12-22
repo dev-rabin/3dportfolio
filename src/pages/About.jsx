@@ -1,5 +1,6 @@
-import { SKILLS } from "../constants/skills.js";
 import { motion } from "framer-motion";
+import { lazy, Suspense } from "react";
+const Skills = lazy(() => import("../components/Skills.jsx"))
 
 const container = {
   hidden: {},
@@ -27,13 +28,7 @@ const fadeUp = {
   },
 };
 
-const softFade = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: { duration: 0.6 },
-  },
-};
+
 
 const item = {
   hidden: {
@@ -120,8 +115,6 @@ export default function About() {
           </motion.p>
         </motion.div>
 
-        
-        {/* ================= SKILLS (UNCHANGED) ================= */}
         <motion.div
           className="mb-10"
           variants={fadeUp}
@@ -149,73 +142,15 @@ export default function About() {
           </p>
         </motion.div>
 
-        {/* SKILLS LIST */}
-        <motion.div
-          className="space-y-14"
-          variants={container}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true }}
+        <Suspense
+          fallback={
+            <div className="h-48 flex items-center justify-center text-gray-500">
+              Loading skills…
+            </div>
+          }
         >
-          {Object.entries(SKILLS).map(([category, items]) => (
-            <motion.div
-              key={category}
-              className="relative space-y-10"
-              variants={fadeUp}
-            >
-              <div className="flex items-center gap-6">
-                <span
-                  className="text-sm uppercase tracking-[0.4em] font-semibold bg-gradient-to-r from-indigo-400 via-sky-400 to-cyan-400 bg-clip-text text-transparent"
-                
-                >
-                  {category}
-                </span>
-                <span className="flex-1 h-px bg-gradient-to-r from-cyan-400/40 via-indigo-400/30 to-transparent" />
-              </div>
-
-              <div className="flex flex-wrap gap-x-14 gap-y-10">
-                {items.map((skill) => {
-                  const Icon = skill.icon;
-
-                  return (
-                    <motion.div
-                      key={skill.name}
-                      variants={softFade}
-                      whileHover={{ scale: 1.06 }}
-                      transition={{
-                        type: "spring",
-                        stiffness: 180,
-                        damping: 18,
-                      }}
-                      className="
-                        group relative flex items-center gap-4
-                        px-5 py-3 rounded-full
-                        bg-white/5
-                        backdrop-blur-lg
-                        border border-white/10
-                        transition-all duration-300
-                        hover:border-white/20
-                        hover:shadow-[0_0_40px_-5px_rgba(99,102,241,0.45)]
-                      "
-                    >
-                      <span className="absolute inset-0 rounded-full bg-gradient-to-r from-indigo-500/20 via-sky-500/20 to-cyan-500/20 opacity-0 blur-xl group-hover:opacity-100 transition-opacity duration-300" />
-
-                      <Icon
-                        size={18}
-                        style={{ color: skill.color }}
-                        className="relative z-10 opacity-90 group-hover:scale-110 transition-transform duration-300"
-                      />
-
-                      <span className="relative z-10 text-[15px] font-semibold tracking-wide text-gray-100">
-                        {skill.name}
-                      </span>
-                    </motion.div>
-                  );
-                })}
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
+          <Skills />
+        </Suspense>
       </div>
     </section>
   );

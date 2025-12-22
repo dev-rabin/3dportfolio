@@ -1,11 +1,29 @@
+import { memo } from "react";
 import { motion } from "framer-motion";
 import { EXPERIENCE } from "../constants/experience.js";
 
-export default function Experience() {
+/* ---------------- ANIMATION VARIANTS ---------------- */
+
+const cardVariants = {
+  hidden: {
+    opacity: 0,
+    y: 40,
+  },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: [0.22, 1, 0.36, 1],
+    },
+  },
+};
+
+const viewportOnce = { once: true };
+
+function Experience() {
   return (
     <section className="text-white">
-      {/* DARK BASE LAYER */}
-
       <div className="relative z-10 w-[80%] mx-auto">
         {/* SECTION HEADER */}
         <p className="uppercase tracking-[0.4em] text-xs text-gray-500 mb-4">
@@ -24,26 +42,27 @@ export default function Experience() {
           {EXPERIENCE.map((exp, index) => (
             <motion.div
               key={exp.id}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: index * 0.05 }}
+              variants={cardVariants}
+              initial="hidden"
+              whileInView="show"
+              viewport={viewportOnce}
+              transition={{ delay: index * 0.05 }}
               className="
-                          relative
-                          rounded-3xl
-                          p-10
-                          bg-white/2
-                          backdrop-blur-lg
-                          border border-white/15
+                relative
+                rounded-3xl
+                p-10
+                bg-white/2
+                backdrop-blur-lg
+                border border-white/15
 
-                          shadow-[0_8px_24px_-10px_rgba(0,0,0,0.45)]
-                          hover:shadow-[0_0_40px_-10px_rgba(255,255,255,0.25)]
+                shadow-[0_8px_24px_-10px_rgba(0,0,0,0.45)]
+                hover:shadow-[0_0_40px_-10px_rgba(255,255,255,0.25)]
 
-                          transition-shadow duration-500
-                        "
+                transition-shadow duration-500
+              "
             >
               {/* SUBTLE EDGE GLOW */}
-              <div className="pointer-events-none absolute inset-0 rounded-3xl " />
+              <div className="pointer-events-none absolute inset-0 rounded-3xl" />
 
               <div className="relative">
                 <p className="text-xs tracking-[0.3em] uppercase text-gray-500 mb-3">
@@ -87,3 +106,5 @@ export default function Experience() {
     </section>
   );
 }
+
+export default memo(Experience);

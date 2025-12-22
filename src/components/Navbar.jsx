@@ -1,17 +1,10 @@
+import { memo, useEffect, useState, useCallback } from "react";
 import { NavLink } from "react-router-dom";
-import { useEffect, useState } from "react";
 
-export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
+/* ---------------- STATIC LINK CLASS ---------------- */
 
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  const linkClass = ({ isActive }) =>
-    `
+const linkClass = ({ isActive }) =>
+  `
     relative uppercase tracking-[0.3em] text-[11px]
     transition-colors duration-300
     ${isActive ? "text-white" : "text-gray-400"}
@@ -22,6 +15,30 @@ export default function Navbar() {
     ${isActive ? "after:w-full" : "after:w-0 hover:after:w-full"}
   `;
 
+function Navbar() {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    let ticking = false;
+
+    const onScroll = () => {
+      if (ticking) return;
+
+      ticking = true;
+      requestAnimationFrame(() => {
+        const shouldScroll = window.scrollY > 24;
+
+        // 🔥 update only when value actually changes
+        setScrolled((prev) => (prev !== shouldScroll ? shouldScroll : prev));
+
+        ticking = false;
+      });
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
     <nav
       className={`
@@ -31,7 +48,7 @@ export default function Navbar() {
         ${
           scrolled
             ? `
-               bg-white/4
+              bg-white/4
               backdrop-blur-lg
               shadow-[0_8px_24px_-10px_rgba(0,0,0,0.45)]
             `
@@ -67,3 +84,5 @@ export default function Navbar() {
     </nav>
   );
 }
+
+export default memo(Navbar);
