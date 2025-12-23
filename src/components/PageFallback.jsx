@@ -38,10 +38,10 @@ function PageFallback() {
           relative
           px-14 py-12
           rounded-2xl
-          bg-white/5
-          backdrop-blur-xl
+          bg-white/4
+          backdrop-blur-lg
           border border-white/10
-          shadow-[0_0_60px_-15px_rgba(99,102,241,0.35)]
+          shadow-[0_8px_24px_-10px_rgba(0,0,0,0.45)]
           overflow-hidden
         "
       >

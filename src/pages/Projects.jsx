@@ -1,50 +1,19 @@
 import { memo, useState, useMemo, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { PROJECTS } from "../constants/projects";
+import { containerVariants, itemVariants } from "../constants/animation";
+import { Link } from "react-router-dom";
 
-/* ---------------- VARIANTS ---------------- */
-
-const containerVariants = {
-  hidden: {},
-  show: {
-    transition: {
-      staggerChildren: 0.18,
-      delayChildren: 0.25,
-    },
-  },
-};
-
-const itemVariants = {
-  hidden: { y: 40, opacity: 0 },
-  show: {
-    y: 0,
-    opacity: 1,
-    transition: {
-      duration: 0.8,
-      ease: [0.76, 0, 0.24, 1],
-    },
-  },
-  exit: {
-    y: 30,
-    opacity: 0,
-    transition: { duration: 0.35 },
-  },
-};
-
-const FILTERS = ["All", "Full Stack", "Web", "Mobile"];
-
-/* ---------------- COMPONENT ---------------- */
+const FILTERS = ["All", "Full Stack", "Frontend", "Mobile"];
 
 function Projects() {
   const [activeFilter, setActiveFilter] = useState("All");
 
-  // ✅ Memoized filtering
   const filteredProjects = useMemo(() => {
     if (activeFilter === "All") return PROJECTS;
     return PROJECTS.filter((p) => p.type === activeFilter);
   }, [activeFilter]);
 
-  // ✅ Stable handler
   const handleFilterChange = useCallback((filter) => {
     setActiveFilter(filter);
   }, []);
@@ -119,87 +88,126 @@ function Projects() {
           animate="show"
         >
           <AnimatePresence mode="wait">
-            {filteredProjects.map((project) => (
-              <motion.article
-                key={project.title}
-                variants={itemVariants}
-                initial="hidden"
-                animate="show"
-                exit="exit"
-                whileHover={{ y: -6 }}
-                className="
-                  group relative w-full
-                  rounded-3xl overflow-hidden
-                  border border-white/10
-                  bg-white/5 backdrop-blur-md
-                  hover:border-white/25
-                  transition-all duration-500
-                "
-              >
-                {/* BACKGROUND IMAGE */}
-                <img
-                  src={project.image}
-                  alt={project.title}
-                  loading="lazy" // ✅ lazy image
+            {filteredProjects.map((project) => {
+              const hasPreview = Boolean(project.projectLink);
+
+              return (
+                <motion.article
+                  key={project.title}
+                  variants={itemVariants}
+                  initial="hidden"
+                  animate="show"
+                  exit="exit"
+                  whileHover={{ y: -6 }}
                   className="
-                    absolute inset-0 w-full h-full object-cover
-                    scale-105 group-hover:scale-100
-                    transition-transform duration-700
+                    group relative w-full
+                    rounded-3xl overflow-hidden
+                    border border-white/10
+                    bg-white/5 backdrop-blur-md
+                    hover:border-white/25
+                    transition-all duration-500
                   "
-                />
+                >
+                  {/* BACKGROUND: PREVIEW OR IMAGE */}
+                  {hasPreview ? (
+                    <iframe
+                      src={project.projectLink}
+                      title={project.title}
+                      loading="lazy"
+                      className="
+                        absolute inset-0 w-full h-full
+                        opacity-0 group-hover:opacity-100
+                        scale-105 group-hover:scale-100
+                        transition-all duration-700 ease-out
+                        pointer-events-none
+                      "
+                    />
+                  ) : (
+                    <img
+                      src={project.image}
+                      alt={project.title}
+                      loading="lazy"
+                      className="
+                        absolute inset-0 w-full h-full object-cover
+                        scale-105
+                        transition-transform duration-700
+                        group-hover:scale-100
+                      "
+                    />
+                  )}
 
-                <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/50 to-black/20" />
+                  {/* GRADIENT OVERLAY */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/50 to-black/20" />
 
-                {/* CONTENT */}
-                <div className="relative z-10 grid grid-cols-12 gap-10 p-8 items-center">
-                  <div className="col-span-7">
-                    <p className="uppercase tracking-[0.35em] text-xs text-gray-400 mb-3">
-                      {project.type}
-                    </p>
+                  {/* CONTENT */}
+                  <div className="relative z-10 grid grid-cols-12 gap-10 p-8 items-center">
+                    {/* LEFT */}
+                    <div className="col-span-7">
+                      <p className="uppercase tracking-[0.35em] text-xs text-gray-400 mb-3">
+                        {project.type}
+                      </p>
 
-                    <h3 className="text-4xl font-semibold tracking-tight">
-                      {project.title}
-                    </h3>
+                      <h3 className="text-4xl font-semibold tracking-tight">
+                        {project.title}
+                      </h3>
 
-                    <p className="mt-5 max-w-xl text-gray-300 leading-relaxed">
-                      {project.desc}
-                    </p>
+                      <p className="mt-3 max-w-xl text-gray-300 leading-relaxed">
+                        {project.desc}
+                      </p>
 
-                    <div className="mt-6 flex flex-wrap gap-3">
-                      {project.tech?.map((t) => (
-                        <span
-                          key={t}
-                          className="text-xs px-4 py-1.5 rounded-full bg-white/15 text-gray-200"
-                        >
-                          {t}
-                        </span>
-                      ))}
+                      {/* ACTIONS */}
+                      <div className="mt-6 flex items-center gap-6 flex-wrap">
+                        {hasPreview && (
+                          <Link
+                            to={project.projectLink}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="text-sm font-medium text-white flex items-center gap-2 whitespace-nowrap"
+                          >
+                            View Project →
+                          </Link>
+                        )}
+
+                        {/* TECH STACK (RIGHT SIDE) */}
+                        <div className="flex flex-wrap gap-2">
+                          {project.teckStack?.map((tech) => (
+                            <span
+                              key={tech}
+                              className="
+                                          text-xs
+                                          px-3 py-1
+                                          rounded-full
+                                          bg-white/10
+                                          text-gray-300
+                                          border border-white/10
+                                        "
+                            >
+                              {tech}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
                     </div>
 
-                    <div className="mt-8 flex items-center gap-6">
-                      <button className="text-sm font-medium text-white flex items-center gap-2">
-                        View Project →
-                      </button>
-
-                      <span className="text-sm text-gray-400">
-                        Case study available
-                      </span>
+                    {/* RIGHT IMAGE (ALWAYS VISIBLE) */}
+                    <div className="col-span-5 hidden lg:block">
+                      <div className="overflow-hidden rounded-2xl border border-white/10">
+                        <img
+                          src={project.image}
+                          alt={project.title}
+                          loading="lazy"
+                          className="
+                            w-full h-64 object-cover
+                            transition-transform duration-700
+                            group-hover:scale-105
+                          "
+                        />
+                      </div>
                     </div>
                   </div>
-
-                  <div className="col-span-5 hidden lg:block">
-                    <div className="overflow-hidden rounded-2xl border border-white/10">
-                      <img
-                        src={project.image}
-                        alt={project.title}
-                        loading="lazy"
-                        className="w-full h-64 object-cover"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </motion.article>
-            ))}
+                </motion.article>
+              );
+            })}
           </AnimatePresence>
         </motion.div>
       </div>

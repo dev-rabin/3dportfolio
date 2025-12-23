@@ -1,51 +1,7 @@
 import { motion } from "framer-motion";
 import { lazy, Suspense } from "react";
-const Skills = lazy(() => import("../components/Skills.jsx"))
-
-const container = {
-  hidden: {},
-  show: {
-    transition: {
-      staggerChildren: 0.08,
-    },
-  },
-};
-
-const fadeUp = {
-  hidden: {
-    opacity: 0,
-    y: 30,
-    filter: "blur(6px)",
-  },
-  show: {
-    opacity: 1,
-    y: 0,
-    filter: "blur(0px)",
-    transition: {
-      duration: 0.9,
-      ease: [0.22, 1, 0.36, 1],
-    },
-  },
-};
-
-
-
-const item = {
-  hidden: {
-    y: 40,
-    opacity: 0,
-    filter: "blur(8px)",
-  },
-  show: {
-    y: 0,
-    opacity: 1,
-    filter: "blur(0px)",
-    transition: {
-      duration: 1,
-      ease: [0.76, 0, 0.24, 1],
-    },
-  },
-};
+import { container, fadeUp, item } from "../constants/animation.js";
+const Skills = lazy(() => import("../components/Skills.jsx"));
 
 export default function About() {
   return (
@@ -89,29 +45,33 @@ export default function About() {
         >
           <motion.p variants={fadeUp}>
             I’m <span className="text-white font-medium">Robin Mandhotia</span>,
-            a Computer Science Engineering graduate (2022) and a certified MERN
-            Stack Developer based in Delhi NCR. I’ve been building web and
-            mobile applications since 2022, with a strong focus on clean code
-            and scalable architecture.
+            a Computer Science Engineering graduate (2022) with hands-on
+            experience building {" "}
+            <span className="text-white">
+              production-ready web and mobile applications
+            </span>
+            . I focus on writing clean, maintainable code and designing systems
+            that scale reliably in real-world environments.
           </motion.p>
 
           <motion.p variants={fadeUp}>
             I work across the full development lifecycle — from translating
-            product requirements into intuitive user interfaces to designing
-            reliable backend systems using React, Node.js, Express, MongoDB, and
-            MySQL. I also build cross-platform mobile apps using React Native.
+            product requirements into intuitive user interfaces to designing and
+            integrating backend services using React, Node.js, Express, MongoDB,
+            and MySQL. I also build cross-platform mobile applications with
+            React Native.
           </motion.p>
 
           <motion.p variants={fadeUp}>
-            My experience includes building admin dashboards, authentication
-            systems, offline-first mobile applications, and data-driven
-            platforms. I care deeply about performance, security, and
-            maintainability.
+            My experience includes developing admin dashboards, implementing
+            secure authentication flows, and delivering data-driven platforms. I place strong
+            emphasis on performance, security and long-term maintainability.
           </motion.p>
 
           <motion.p variants={fadeUp} className="text-gray-400">
-            I’m open to freelance projects, collaborations, and product-driven
-            teams where thoughtful engineering and clean execution matter.
+            I’m open to freelance work, collaborations, and product-focused
+            teams where thoughtful engineering, ownership, and clean execution
+            are valued.
           </motion.p>
         </motion.div>
 

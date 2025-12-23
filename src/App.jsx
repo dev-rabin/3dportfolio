@@ -58,10 +58,6 @@ function AnimatedRoutes() {
   );
 }
 
-
-
-
-
 export default function App() {
   return (
     <BrowserRouter>

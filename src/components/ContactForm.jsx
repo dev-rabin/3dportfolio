@@ -1,39 +1,45 @@
-import { memo, useCallback } from "react";
+import { memo, useCallback, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { FiArrowUpRight } from "react-icons/fi";
-
-/* ---------------- ANIMATION ---------------- */
-
-const item = {
-  hidden: { y: 24, opacity: 0, filter: "blur(4px)" },
-  show: {
-    y: 0,
-    opacity: 1,
-    filter: "blur(0px)",
-    transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] },
-  },
-};
-
-/* ---------------- STATIC FIELDS ---------------- */
+import emailjs from "@emailjs/browser";
+import { item } from "../constants/animation";
 
 const FIELDS = [
-  { label: "Full Name", type: "text" },
-  { label: "Email Address", type: "email" },
+  { label: "Full Name", type: "text", name: "from_name" },
+  { label: "Email Address", type: "email", name: "from_email" },
 ];
 
-function ContactForm({ onSubmit }) {
-  // stable fallback submit
-  const handleSubmit = useCallback(
-    (e) => {
-      e.preventDefault();
-      onSubmit?.(e);
-    },
-    [onSubmit]
-  );
+function ContactForm() {
+  const formRef = useRef(null);
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+
+  const handleSubmit = useCallback((e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    emailjs
+      .sendForm(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+        formRef.current,
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+      )
+      .then(() => {
+        setSuccess(true);
+        setLoading(false);
+        formRef.current.reset();
+      })
+      .catch((err) => {
+        console.error(err);
+        setLoading(false);
+      });
+  }, []);
 
   return (
     <section className="flex items-center justify-center">
       <motion.form
+        ref={formRef}
         initial="hidden"
         animate="show"
         variants={item}
@@ -60,12 +66,13 @@ function ContactForm({ onSubmit }) {
         {/* INPUT FIELDS */}
         {FIELDS.map((field) => (
           <motion.div
-            key={field.label}
+            key={field.name}
             variants={item}
             className="relative group"
           >
             <input
               type={field.type}
+              name={field.name}
               required
               className="
                 peer w-full bg-transparent
@@ -93,6 +100,7 @@ function ContactForm({ onSubmit }) {
         {/* MESSAGE */}
         <motion.div variants={item} className="relative group">
           <textarea
+            name="message"
             rows={2}
             required
             className="
@@ -100,8 +108,6 @@ function ContactForm({ onSubmit }) {
               py-3 text-base text-white
               border-b border-white/25
               outline-none resize-none
-              transition
-            
             "
           />
           <label
@@ -122,6 +128,7 @@ function ContactForm({ onSubmit }) {
           variants={item}
           whileHover={{ y: -1 }}
           whileTap={{ scale: 0.96 }}
+          disabled={loading}
           className="
             mt-4 inline-flex items-center gap-3
             text-sm font-medium
@@ -129,10 +136,17 @@ function ContactForm({ onSubmit }) {
             pb-1
             hover:border-white
             transition
+            disabled:opacity-50
           "
         >
-          Send Message <FiArrowUpRight />
+          {loading ? "Sending..." : "Send Message"} <FiArrowUpRight />
         </motion.button>
+
+        {success && (
+          <p className="text-sm text-green-400">
+            Message sent successfully. I’ll get back to you soon.
+          </p>
+        )}
       </motion.form>
     </section>
   );

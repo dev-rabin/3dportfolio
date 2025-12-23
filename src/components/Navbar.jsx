@@ -1,5 +1,5 @@
 import { memo, useEffect, useState, useCallback } from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 /* ---------------- STATIC LINK CLASS ---------------- */
 
@@ -60,9 +60,11 @@ function Navbar() {
         {/* LOGO */}
         <div className="flex items-center gap-3 select-none">
           <span className="w-2 h-2 rounded-full bg-white/90" />
-          <span className="uppercase tracking-[0.35em] text-[11px] text-white">
-            Robin Mandhotia
-          </span>
+          <Link to="/">
+            <span className="uppercase tracking-[0.35em] text-[11px] text-white">
+              Robin Mandhotia
+            </span>
+          </Link>
         </div>
 
         {/* NAV LINKS */}

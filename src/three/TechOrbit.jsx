@@ -3,6 +3,7 @@ import { Html } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
+import { IoLogoJavascript } from "react-icons/io";
 import {
   SiReact,
   SiNodedotjs,
@@ -11,10 +12,9 @@ import {
   SiAndroid,
   SiApple,
   SiMysql,
-  SiRedux,
+  SiRedux
 } from "react-icons/si";
 
-/* ---------------- STATIC DATA ---------------- */
 
 const ICONS = [
   { Icon: SiReact, color: "#61DAFB" },
@@ -25,17 +25,17 @@ const ICONS = [
   { Icon: SiApple, color: "#A2AAAD" },
   { Icon: SiMysql, color: "#4479A1" },
   { Icon: SiRedux, color: "#764ABC" },
+  { Icon: IoLogoJavascript, color: "#F7DF1E" },
 ];
 
 const RADIUS = 1.6;
 
-// Precompute positions once
+
 const POSITIONS = ICONS.map((_, i) => {
   const angle = (i / ICONS.length) * Math.PI * 2;
   return [Math.cos(angle) * RADIUS, 0, Math.sin(angle) * RADIUS];
 });
 
-/* ---------------- COMPONENT ---------------- */
 
 function TechOrbit({ dragDelta, isDragging }) {
   const groupRef = useRef();

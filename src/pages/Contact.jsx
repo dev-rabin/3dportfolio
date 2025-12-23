@@ -2,23 +2,7 @@ import { memo, lazy, Suspense } from "react";
 import { motion } from "framer-motion";
 import { FiMapPin } from "react-icons/fi";
 import { FaGithub, FaLinkedinIn, FaTwitter } from "react-icons/fa";
-
-/* ---------------- VARIANTS ---------------- */
-
-const item = {
-  hidden: { y: 40, opacity: 0 },
-  show: {
-    y: 0,
-    opacity: 1,
-    transition: {
-      duration: 1,
-      ease: [0.76, 0, 0.24, 1],
-    },
-  },
-};
-
-/* ---------------- LAZY FORM ---------------- */
-
+import { item } from "../constants/animation.js";
 const ContactForm = lazy(() => import("../components/ContactForm.jsx"));
 
 const SOCIALS = [
@@ -27,7 +11,6 @@ const SOCIALS = [
   { icon: FaTwitter, href: "#" },
 ];
 
-/* ---------------- COMPONENT ---------------- */
 
 function Contact() {
   return (
@@ -48,7 +31,7 @@ function Contact() {
           flex gap-24
         "
       >
-        {/* ================= LEFT ================= */}
+ 
         <div className="w-1/2">
           <motion.p
             variants={item}
@@ -110,12 +93,11 @@ function Contact() {
           </motion.div>
         </div>
 
-        {/* ================= RIGHT ================= */}
         <div className="w-1/2">
           <Suspense
             fallback={
               <div className="h-64 flex items-center justify-center text-gray-500">
-                Loading form…
+                ...
               </div>
             }
           >

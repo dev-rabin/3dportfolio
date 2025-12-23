@@ -1,23 +1,7 @@
 import { memo } from "react";
 import { motion } from "framer-motion";
 import { EXPERIENCE } from "../constants/experience.js";
-
-/* ---------------- ANIMATION VARIANTS ---------------- */
-
-const cardVariants = {
-  hidden: {
-    opacity: 0,
-    y: 40,
-  },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.6,
-      ease: [0.22, 1, 0.36, 1],
-    },
-  },
-};
+import { cardVariants } from "../constants/animation.js";
 
 const viewportOnce = { once: true };
 
