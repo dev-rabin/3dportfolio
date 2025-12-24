@@ -65,18 +65,21 @@ export const containerVariants = {
 };
 
 export const itemVariants = {
-  hidden: { y: 40, opacity: 0 },
+  hidden: {
+    opacity: 0,
+    y: 60,
+  },
   show: {
-    y: 0,
     opacity: 1,
+    y: 0,
     transition: {
-      duration: 0.8,
-      ease: [0.76, 0, 0.24, 1],
+      duration: 0.9,
+      ease: [0.22, 1, 0.36, 1],
     },
   },
   exit: {
-    y: 30,
     opacity: 0,
-    transition: { duration: 0.35 },
+    y: 40,
+    transition: { duration: 0.4 },
   },
 };

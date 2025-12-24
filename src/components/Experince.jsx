@@ -8,13 +8,32 @@ const viewportOnce = { once: true };
 function Experience() {
   return (
     <section className="text-white">
-      <div className="relative z-10 w-[80%] mx-auto">
+      <div
+        className="
+          relative z-10
+          w-[92%] sm:w-[85%] lg:w-[80%]
+          mx-auto
+        "
+      >
         {/* SECTION HEADER */}
-        <p className="uppercase tracking-[0.4em] text-xs text-gray-500 mb-4">
+        <p
+          className="
+            uppercase tracking-[0.4em]
+            text-[10px] sm:text-xs
+            text-gray-500
+            mb-4
+          "
+        >
           Experience
         </p>
 
-        <h2 className="text-[48px] font-serif italic tracking-tight mb-10">
+        <h2
+          className="
+            font-serif italic tracking-tight
+            text-[34px] sm:text-[42px] lg:text-[48px]
+            mb-8 sm:mb-10
+          "
+        >
           Professional{" "}
           <span className="not-italic font-sans font-semibold bg-gradient-to-r from-indigo-400 via-sky-400 to-cyan-400 bg-clip-text text-transparent">
             Journey
@@ -22,7 +41,7 @@ function Experience() {
         </h2>
 
         {/* EXPERIENCE LIST */}
-        <div className="space-y-16">
+        <div className="space-y-10 sm:space-y-14 lg:space-y-16">
           {EXPERIENCE.map((exp, index) => (
             <motion.div
               key={exp.id}
@@ -34,7 +53,7 @@ function Experience() {
               className="
                 relative
                 rounded-3xl
-                p-10
+                p-6 sm:p-8 lg:p-10
                 bg-white/2
                 backdrop-blur-lg
                 border border-white/15
@@ -49,29 +68,56 @@ function Experience() {
               <div className="pointer-events-none absolute inset-0 rounded-3xl" />
 
               <div className="relative">
-                <p className="text-xs tracking-[0.3em] uppercase text-gray-500 mb-3">
+                <p
+                  className="
+                    uppercase tracking-[0.3em]
+                    text-[10px] sm:text-xs
+                    text-gray-500
+                    mb-3
+                  "
+                >
                   {exp.period}
                 </p>
 
-                <h3 className="text-2xl font-semibold text-white mb-1">
+                <h3
+                  className="
+                    font-semibold text-white
+                    text-lg sm:text-xl lg:text-2xl
+                    mb-1
+                  "
+                >
                   {exp.role}
                 </h3>
 
-                <p className="text-sm text-gray-400 mb-5">
+                <p
+                  className="
+                    text-xs sm:text-sm
+                    text-gray-400
+                    mb-4 sm:mb-5
+                  "
+                >
                   {exp.company} · {exp.type}
                 </p>
 
-                <p className="text-gray-300 leading-relaxed mb-6">
+                <p
+                  className="
+                    text-sm sm:text-base
+                    text-gray-300
+                    leading-relaxed
+                    mb-6
+                  "
+                >
                   {exp.description}
                 </p>
 
                 {/* TECH STACK */}
-                <div className="flex flex-wrap gap-3">
+                <div className="flex flex-wrap gap-2 sm:gap-3">
                   {exp.tech.map((tech) => (
                     <span
                       key={tech}
                       className="
-                        px-3 py-1 text-xs
+                        px-3 py-1
+                        text-[10px] sm:text-xs
                         rounded-full
                         bg-black/40
                         border border-white/10
