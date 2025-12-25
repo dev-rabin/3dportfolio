@@ -1,16 +1,10 @@
 import { memo, lazy, Suspense } from "react";
 import { motion } from "framer-motion";
-import { FiMapPin } from "react-icons/fi";
+import { FiMail, FiMapPin } from "react-icons/fi";
 import { FaGithub, FaLinkedinIn, FaTwitter } from "react-icons/fa";
 import { item } from "../constants/animation.js";
 
 const ContactForm = lazy(() => import("../components/ContactForm.jsx"));
-
-const SOCIALS = [
-  { icon: FaGithub, href: "#" },
-  { icon: FaLinkedinIn, href: "#" },
-  { icon: FaTwitter, href: "#" },
-];
 
 function Contact() {
   return (
@@ -92,18 +86,44 @@ function Contact() {
               <span>India · Remote</span>
             </div>
 
-            <div className="flex flex-wrap gap-6">
-              {SOCIALS.map(({ icon: Icon, href }) => (
-                <motion.a
-                  key={href}
-                  href={href}
-                  whileHover={{ y: -3 }}
-                  className="text-gray-400 hover:text-white transition-colors"
-                >
-                  <Icon size={18} />
-                </motion.a>
-              ))}
-            </div>
+         <div
+                    className="
+                              flex flex-wrap
+                              justify-start
+                              items-start
+                              gap-4 sm:gap-6
+                              uppercase tracking-widest
+                              text-[12px] sm:text-[11px]
+                            "
+                  >
+                    <a
+                      href="mailto:robinmandhotia@gmail.com"
+                      aria-label="Email"
+                      className="text-gray-400 hover:text-white transition"
+                    >
+                      <FiMail size={18} />
+                    </a>
+        
+                    <a
+                      href="https://github.com/dev-rabin"
+                      target="_blank"
+                      rel="noreferrer"
+                      aria-label="GitHub"
+                      className="text-gray-400 hover:text-white transition"
+                    >
+                      <FaGithub size={18} />
+                    </a>
+        
+                    <a
+                      href="https://www.linkedin.com/in/robin-mandhotia-560579289/"
+                      target="_blank"
+                      rel="noreferrer"
+                      aria-label="LinkedIn"
+                      className="text-gray-400 hover:text-white transition"
+                    >
+                      <FaLinkedinIn size={18} />
+                    </a>
+                  </div>
           </motion.div>
         </div>
 
